@@ -11,7 +11,7 @@ var User = require('../models/Userschema');
 const { callbackPromise } = require("nodemailer/lib/shared");
 const { getMaxListeners } = require("../models/Userschema");
 const { response } = require("express");
-const { reset } = require("nodemon");
+
 const { title } = require("process");
 
 
