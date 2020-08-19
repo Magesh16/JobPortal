@@ -1,0 +1,60 @@
+<%- include('../layout') %>
+
+<div class="container">
+  <br /><br />
+  <div class="text-center reg_msg">
+    <h1><a href="/" style="font-size: 35px;padding-right: 10px;padding-top: 15px;">RateMe</a></h1>
+  </div>
+  <br><br>
+
+
+  <div class="banner-tittle text-center reg_msg">
+    <h2 class="fancy"><span>Enter Your Email</span></h2>
+  </div><br>
+  <p class="text-center">Please enter your email and password reset link will be sent.</p>
+
+
+  <div class="row signup">
+
+    <% if (typeof errors =='object'){%>
+    <% errors.forEach(function(error) {%>
+    <p class="alert alert-danger">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">
+        &times;</a>
+      <%- error %>
+    </p>
+    <% }); %>
+    <% } %>
+
+
+    <% if (typeof info=='object'){%>
+    <% info.forEach(function(inf) {%>
+    <p class="alert alert-info">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">
+        &times;</a>
+      <%- inf %>
+    </p>
+    <% }); %>
+    <% } %>
+
+
+    <form method="POST" class="" id="signupForm" action="/forgot">
+
+
+      <div class="form-group input_group">
+        <input id="email" class="form-control" name="email" type="text" autocomplete="on" placeholder="EMAIL"
+          style="margin-bottom:20px;">
+      </div>
+
+      <div class="form-group" id="submit">
+        <input type="submit" value="send" class="form-control btn btn-primary" name="submit">
+      </div>
+    </form>
+
+    <div>
+      <h4>Already reset your password?
+        <a href="/login">Login</a>
+      </h4>
+    </div>
+  </div>
+</div>
