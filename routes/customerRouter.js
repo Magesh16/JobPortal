@@ -11,49 +11,46 @@ var Customer = require('../models/Customer');
 const { callbackPromise } = require("nodemailer/lib/shared");
 const { getMaxListeners } = require("../models/Customer");
 const { response } = require("express");
-
 const { title } = require("process");
 
 
 module.exports = (app, passport) => {
   app.get("/", function (req, res, next) {
     console.log('customerRouter called')
-    if (req.session.cookie.originalMaxAge != null) {
-      res.redirect('/home');
-    } else {
-      res.render("index", { title: "index || RateMe" });
-    }
-
+    res.status(200).json({ status: "customerRouter called" });
   });
 
   app.get("/signup", function (req, res) {
     var errors = req.flash("errors");
     console.log("Signup get called");
-    res.render("customer/signup", { title: "signup || RateMe" });
+    res.status(200).json({ status: "customerSignup called" });
+    //res.render("customer/signup", { title: "signup || RateMe" });
   });
 
   app.post(
     "/signup",
-    [body("firstname").isAlphanumeric(), body("email").isEmail(), body("password").isLength({ min: 5 })],
+    [body("firstname").isAlphanumeric(),body("lastname").isAlphanumeric(), body("email").isEmail(), 
+    body("password").isLength({ min: 5 })],
     (req, res, next) => {
       const errors = validationResult(req);
+      console.log("Signup post called");
       if (!errors.isEmpty()) {
         //return res.status(422).json({ errors: errors.array() });
         console.log(errors.array());
-        return res
-          .status(422)
-          .render("customer/signup", {
-            title: "signup Again || RateMe",
-            errors: errors.array()
-          });
+        return res.status(422).json({ errors: errors.array() });
       }
       next();
     },
     passport.authenticate("local.signup", {
-      successRedirect: "/login",
+      //successRedirect: "/login",
       failureRedirect: "/signup",
       failureFlash: true,
-    })
+    }),
+    (req,res)=>{
+      return res.status(200).json({ status: "Registration successful" });
+    },
+
+
     // passport.authenticate("local.signup", (err, customer, next) => {
     //     console.log(customer);
     //     return res.status(422).json({ customer:customer.fullname });

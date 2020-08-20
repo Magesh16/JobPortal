@@ -1,12 +1,10 @@
 var passport = require('passport');
-//const user = require('../routes/userRouter');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var secret = require('../secret/secret');
 
-const User = require('../models/Userschema.js');
 const Customer = require('../models/Customer.js');
-console.log(User);
+console.log(Customer);
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -16,7 +14,7 @@ passport.deserializeUser(function (user, done) {
     done(null, user);
 });
 passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
+    Customer.findById(id, (err, user) => {
         done(err, user);
     });
 });
@@ -28,9 +26,9 @@ passport.use('local.signup', new LocalStrategy(
         passReqToCallback: true
     },
     (req, username, password, done) => {
-        console.log("Inside Local.signup" + "  Fullname " + req.body.firstname + "  Username " + username + "  Password " + password);
+        console.log("Inside Local.signup" + "  First name " + req.body.firstname + "  Customername " + username + "  Password " + password);
 
-        User.findOne({ email: username }, (err, user) => {
+        Customer.findOne({ email: username }, (err, user) => {
             console.log("Inside Local.signup1");
             if (err) {
                 return done(err);
@@ -39,7 +37,7 @@ passport.use('local.signup', new LocalStrategy(
                 console.log("User already exists");
                 return done(null, false, req.flash('errors', 'user with email alreay exist'));
             }
-            var newUser = new User();
+            var newUser = new Customer();
             console.log("Inside Local.signup2");
             newUser.firstname = req.body.firstname;
             newUser.email = username;
@@ -76,7 +74,7 @@ passport.use('local.login', new LocalStrategy(
     (req, username, password, done) => {
         console.log("Inside Local.login" + "Username " + username + "  Password " + password);
 
-        User.findOne({ email: username }, (err, user) => {
+    Customer.findOne({ email: username }, (err, user) => {
             console.log("Inside Local.login1");
             if (err) {
                 return done(err);
@@ -101,7 +99,7 @@ passport.use('local.login', new LocalStrategy(
 
 passport.use(new FacebookStrategy(secret.facebook, (req, token, refreshtoken, profile, done) => {
     console.log("Facebook secret worked");
-    User.findOne({ facebook: profile.id }, (err, user) => {
+    Customer.findOne({ facebook: profile.id }, (err, user) => {
         if (err) {
             console.log("Facebook secret error");
             return done(err);
@@ -111,7 +109,7 @@ passport.use(new FacebookStrategy(secret.facebook, (req, token, refreshtoken, pr
             return done(null, user);
         } else {
             console.log("Facebook new user");
-            var newUser = new User();
+            var newUser = new Customer();
             newUser.facebook = profile.id;
             newUser.fullname = profile.displayName;
             newUser.email = profile._json.email;

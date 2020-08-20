@@ -29,7 +29,7 @@ const uri = "mongodb+srv://jobadmin:bCcRsbUoZnZObKXi@jobportal.eimxd.mongodb.net
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 .catch(error => console.log(error));
 if(mongoose.connection.readyState){
-  console.log("DB connection using new URL successful")
+  console.log("DB connection using mongo URL successful")
 }
 else{
   console.log("DB is not connected")
@@ -46,8 +46,8 @@ require("./config/passport");
 
 app.use(express.static("public"));
 app.engine("ejs", engine);
-app.set("view engine", "ejs");
-app.set("views", "./views");
+// app.set("view engine", "ejs");
+// app.set("views", "./views");
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(bodyParser.json);
@@ -65,13 +65,9 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-//require("./routes/userRouter")(app, passport);
 require("./routes/customerRouter")(app, passport);
 
 require('./secret/secret');
 
-app.get("/", function (req, res, next) {
-  res.render("index", { title: "index || RateMe" });
-});
 app.listen(process.env.PORT || 3005);
 console.log("starting application.  Good job!");
