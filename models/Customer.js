@@ -13,9 +13,9 @@ var Customer = mongoose.Schema({
         mobilenumber:
         {type: String, required: true},
         location:
-        {type: String, default:""},
+        {type: String, required: true},
         customertype:
-        {type: String, default:""},
+        {type: String,required: true},
         dob:
         {type: String, default:""},
         gender:

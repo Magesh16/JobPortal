@@ -30,7 +30,7 @@ module.exports = (app, passport) => {
   app.post(
     "/signup",
     [body("firstname").isAlphanumeric(),body("lastname").isAlphanumeric(), body("email").isEmail(), 
-    body("password").isLength({ min: 5 })],
+    body("password").isLength({ min: 6 })],
     (req, res, next) => {
       const errors = validationResult(req);
       console.log("Signup post called");

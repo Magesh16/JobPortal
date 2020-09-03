@@ -43,6 +43,8 @@ passport.use('local.signup', new LocalStrategy(
             newUser.email = username;
             newUser.password = newUser.encryptPassword(password);
             newUser.mobilenumber=req.body.mobilenumber;
+            newUser.location=req.body.location;
+            newUser.customertype=req.body.customertype;
             newUser.lastname=req.body.lastname;
             //newUser.save((err) => {
 
@@ -53,6 +55,8 @@ passport.use('local.signup', new LocalStrategy(
                 email: newUser.email,
                 password: newUser.password,
                 mobilenumber:newUser.mobilenumber,
+                customertype:newUser.customertype,
+                location:newUser.location,
                 lastname:newUser.lastname
             })
                 .then(user => {
