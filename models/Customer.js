@@ -9,7 +9,7 @@ var Customer = mongoose.Schema({
         email:
         {type: String, required: true},
         password:
-        {type: String},
+        {type: String, required: true}, 
         mobilenumber:
         {type: String, required: true},
         location:
